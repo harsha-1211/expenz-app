@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         body: Center(
           child: Text(
             "Hello Friends !!!!!",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
           ),
         ),
       ),
