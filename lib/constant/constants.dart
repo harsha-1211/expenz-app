@@ -1,1 +1,1 @@
-final kDefaultPadding = 15;
+final double kDefaultPadding = 15;

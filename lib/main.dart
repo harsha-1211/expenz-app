@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "expenz app",
-      theme: ThemeData(fontFamily: "Inter"),
+      theme: ThemeData(fontFamily: 'Inter'),
       home: OnboardingScreen(),
     );
   }
