@@ -20,7 +20,7 @@ class UserService {
         return;
       }
       //user entered password and confirm password are equal
-      //create and instance a shared preferences
+      //create an instance a shared preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       //store the user name and email in key-value pairs
       await prefs.setString("UserName", userName);
@@ -34,4 +34,12 @@ class UserService {
       err.toString();
     }
   }
+
+  //method to check is username saved in shared preferences??
+  static Future<bool> isSavedUserName()async{
+    //create an instance a shared preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userName = prefs.getString("UserName");
+    return userName != null;
+  } 
 }
