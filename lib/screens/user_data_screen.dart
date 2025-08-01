@@ -1,3 +1,4 @@
+import 'package:expenz_app/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenz_app/constant/colors.dart';
@@ -23,7 +24,8 @@ class _UserDataScreenState extends State<UserDataScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -50,12 +52,12 @@ class _UserDataScreenState extends State<UserDataScreen> {
                 Text(
                   "Enter your \nPersonal Details",
                   style: TextStyle(
-                    fontSize: 35,
+                    fontSize: 38,
                     fontWeight: FontWeight.w600,
                     color: kBlack,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 40),
 
                 //form
                 Form(
@@ -68,9 +70,10 @@ class _UserDataScreenState extends State<UserDataScreen> {
                         controller: _userNameController,
                         validator: (value) {
                           //validation
-                          if(value!.isEmpty){
+                          if (value!.isEmpty) {
                             return "Please Enter Your Name";
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           hintText: "Name",
@@ -91,15 +94,16 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 30),
                       //form feild for e-mail
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
                           //validation
-                          if(value!.isEmpty){
+                          if (value!.isEmpty) {
                             return "Please Enter Your E-mail";
                           }
+                          return null;
                         },
                         decoration: InputDecoration(
                           hintText: "Email",
@@ -120,15 +124,16 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 30),
                       //form feild for password
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
                           //validation
-                          if(value!.isEmpty){
+                          if (value!.isEmpty) {
                             return "Please Enter a Valid Pasword";
                           }
+                          return null;
                         },
                         obscureText: true,
                         decoration: InputDecoration(
@@ -150,15 +155,16 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 30),
                       //form feild for confirm password
                       TextFormField(
                         controller: _confirmPasswordController,
                         validator: (value) {
                           //validation
-                          if(value!.isEmpty){
+                          if (value!.isEmpty) {
                             return "Please Enter a Valid Confirmation Password";
                           }
+                          return null;
                         },
                         obscureText: true,
                         decoration: InputDecoration(
@@ -209,23 +215,33 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       SizedBox(height: 30),
                       //submit button
                       GestureDetector(
-                        onTap: () {
-                          if(_formKey.currentState!.validate()){
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
                             //from is valid, process data
-                            String username= _userNameController.text;
-                            String email= _emailController.text;
-                            String password= _passwordController.text;
-                            String confirmPassword= _confirmPasswordController.text;
+                            String username = _userNameController.text;
+                            String email = _emailController.text;
+                            String password = _passwordController.text;
+                            String confirmPassword =
+                                _confirmPasswordController.text;
 
-                            print('$username $email $password $confirmPassword');
+                            //save data in local device storeage
+                            await UserService.storeUserDetails(
+                              userName: username,
+                              email: email,
+                              password: password,
+                              confirmPassword: confirmPassword,
+                              context: context,
+                            );
                           }
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => HomePage()),
-                          // );
-
-                    
+                          if (context.mounted) {
+                            //navigate to main page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                          }
                         },
                         child: CustomButton(
                           btnName: "Next",
