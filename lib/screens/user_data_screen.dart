@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:expenz_app/constant/colors.dart';
 import 'package:expenz_app/constant/constants.dart';
-import 'package:expenz_app/screens/home_page.dart';
+import 'package:expenz_app/screens/main_screen.dart';
 import 'package:expenz_app/widgets/custom_button.dart';
 
 class UserDataScreen extends StatefulWidget {
@@ -232,15 +232,17 @@ class _UserDataScreenState extends State<UserDataScreen> {
                               confirmPassword: confirmPassword,
                               context: context,
                             );
-                          }
-                          if (context.mounted) {
-                            //navigate to main page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                            if (context.mounted) {
+                              //navigate to main page
+                              if (password == confirmPassword) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MainScreen(),
+                                  ),
+                                );
+                              }
+                            }
                           }
                         },
                         child: CustomButton(
