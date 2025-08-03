@@ -10,3 +10,7 @@ const Color kRed = Color(0xFFFD3C4A);
 const Color kYellow = Color(0xFFFCAC12);
 const Color kLightYellow = Color(0xFFF9DB9F);
 const Color kOrange = Color(0xFFFFCF99);
+const Color kBlue = Color.fromARGB(255, 7, 107, 190);
+const Color kPink = Colors.pink;
+const Color kLightBlue = Colors.lightBlue;
+const Color kDarkRed = Color.fromARGB(255, 255, 25, 25);
