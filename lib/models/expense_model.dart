@@ -39,4 +39,30 @@ class ExpenseModel {
     required this.time,
     required this.description,
   });
+
+  //methods to convert to JSON obj(serialization)
+  Map<String, dynamic> toJSON() {
+    return {
+      "Id": id,
+      "Title": title,
+      "Amount": amount,
+      "Category": category.index,
+      "Date": date.toIso8601String(),
+      "Time": time.toIso8601String(),
+      "Description": description,
+    };
+  }
+
+  //methods to convert to dart obj(deserialization)
+  factory ExpenseModel.fromJSON(Map<String, dynamic> json) {
+    return ExpenseModel(
+      id: json["Id"],
+      title: json["Title"],
+      amount: json["Amount"],
+      category: ExpenseCategory.values[json["Category"]],
+      date: DateTime.parse(json["Date"]),
+      time: DateTime.parse(json["Time"]),
+      description: json["Description"],
+    );
+  }
 }

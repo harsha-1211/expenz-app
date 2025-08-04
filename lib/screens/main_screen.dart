@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:expenz_app/constant/colors.dart';
 import 'package:expenz_app/screens/add_new_screen.dart';
 import 'package:expenz_app/screens/budget_page.dart';
 import 'package:expenz_app/screens/home_page.dart';
 import 'package:expenz_app/screens/profile_page.dart';
 import 'package:expenz_app/screens/transaction_page.dart';
-import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
