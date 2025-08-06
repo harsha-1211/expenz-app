@@ -1,3 +1,7 @@
+import 'package:expenz_app/models/expense_model.dart';
+import 'package:expenz_app/models/income_model.dart';
+import 'package:expenz_app/services/expense_service.dart';
+import 'package:expenz_app/services/income_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenz_app/constant/colors.dart';
@@ -18,13 +22,63 @@ class _MainScreenState extends State<MainScreen> {
   //current page index
   int _currentIndex = 0;
 
+  List<ExpenseModel> expenseList = [];
+  List<IncomeModel> incomeList = [];
+
+  //funtion to flech expenses
+  void flechAllExpenses() async {
+    List<ExpenseModel> loadedExpenses = await ExpenseService().loadExpenses();
+
+    setState(() {
+      expenseList = loadedExpenses;
+    });
+  }
+
+  //funtion to flech expenses
+  void flechAllIncomes() async {
+    List<IncomeModel> loadedIncomes = await IncomeService().loadIncomes();
+
+    setState(() {
+      incomeList = loadedIncomes;
+    });
+  }
+
+  //funtion to add a new expense
+  void addNewExpense(ExpenseModel newExpense) {
+    ExpenseService().saveExpenses(newExpense, context);
+
+    //update the list of expenses
+    setState(() {
+      expenseList.add(newExpense);
+    });
+  }
+
+  //funtion to add a new Income
+  void addNewIncome(IncomeModel newIncome) {
+    IncomeService().saveIncomes(newIncome, context);
+
+    //update the list of Incomes
+    setState(() {
+      incomeList.add(newIncome);
+    });
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      flechAllExpenses();
+      flechAllIncomes();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //screen list
     final List<Widget> pages = [
-      AddNewScreen(),
       HomePage(),
       TransactionPage(),
+      AddNewScreen(addExpense: addNewExpense, addIncome: addNewIncome),
       BudgetPage(),
       ProfilePage(),
     ];
