@@ -103,7 +103,7 @@ class ExpenseService {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Expense List Updated"),
+            content: Text("Expense List Updated !"),
             duration: Duration(seconds: 2),
           ),
         );

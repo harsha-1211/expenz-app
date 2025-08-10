@@ -55,7 +55,6 @@ class IncomeCard extends StatelessWidget {
                     incomeCategoryImages[category]!,
                     width: 20,
                     height: 20,
-                    fit: BoxFit.cover,
                   ),
                 ),
               ),

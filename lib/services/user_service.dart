@@ -41,7 +41,7 @@ class UserService {
     //create an instance a shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userName = prefs.getString("UserName");
-    return userName != null;
+    return userName != null; //return userName!.isEmpty;
   }
 
   //methods to a get username and email
@@ -50,6 +50,6 @@ class UserService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userName = await prefs.getString("UserName");
     String? email = await prefs.getString("Email");
-    return {"UserName": ?userName , "Email": ?email};
+    return {"UserName": ?userName, "Email": ?email};
   }
 }

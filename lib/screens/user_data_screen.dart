@@ -187,73 +187,68 @@ class _UserDataScreenState extends State<UserDataScreen> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      
                     ],
                   ),
                 ),
                 // checked remeber Me for the next time
-                      Row(
-                        children: [
-                          Text(
-                            "Remember Me for the next time",
-                            style: TextStyle(
-                              color: kGrey,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Expanded(
-                            child: CheckboxListTile(
-                              activeColor: kMainColor,
-                              hoverColor: kGrey,
-                              value: _isRemember,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isRemember = !_isRemember;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
+                Row(
+                  children: [
+                    Text(
+                      "Remember Me for the next time",
+                      style: TextStyle(
+                        color: kGrey,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
-                      SizedBox(height: 30),
-                      //submit button
-                      GestureDetector(
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            //from is valid, process data
-                            String username = _userNameController.text;
-                            String email = _emailController.text;
-                            String password = _passwordController.text;
-                            String confirmPassword =
-                                _confirmPasswordController.text;
-
-                            //save data in local device storeage
-                            await UserService.storeUserDetails(
-                              userName: username,
-                              email: email,
-                              password: password,
-                              confirmPassword: confirmPassword,
-                              context: context,
-                            );
-                            if (context.mounted) {
-                              //navigate to main page
-                              if (password == confirmPassword) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MainScreen(),
-                                  ),
-                                );
-                              }
-                            }
-                          }
+                    ),
+                    Expanded(
+                      child: CheckboxListTile(
+                        activeColor: kMainColor,
+                        hoverColor: kGrey,
+                        value: _isRemember,
+                        onChanged: (value) {
+                          setState(() {
+                            _isRemember = !_isRemember;
+                          });
                         },
-                        child: CustomButton(
-                          btnName: "Next",
-                          btnColor: kMainColor,
-                        ),
                       ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 30),
+                //submit button
+                GestureDetector(
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      //from is valid, process data
+                      String username = _userNameController.text;
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      String confirmPassword = _confirmPasswordController.text;
+
+                      //save data in local device storeage
+                      await UserService.storeUserDetails(
+                        userName: username,
+                        email: email,
+                        password: password,
+                        confirmPassword: confirmPassword,
+                        context: context,
+                      );
+                      if (context.mounted) {
+                        //navigate to main page
+                        if (password == confirmPassword) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ),
+                          );
+                        }
+                      }
+                    }
+                  },
+                  child: CustomButton(btnName: "Next", btnColor: kMainColor),
+                ),
               ],
             ),
           ),

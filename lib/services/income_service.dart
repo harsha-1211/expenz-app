@@ -103,11 +103,21 @@ class IncomeService {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Income List Updated"),
+            content: Text("Income List Updated !"),
             duration: Duration(seconds: 2),
           ),
         );
       }
-    } catch (err) {}
+    } catch (err) {
+      //show snack bar
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Having Error : $err"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 }
