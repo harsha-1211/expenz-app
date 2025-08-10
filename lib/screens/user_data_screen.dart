@@ -187,7 +187,11 @@ class _UserDataScreenState extends State<UserDataScreen> {
                         ),
                       ),
                       SizedBox(height: 15),
-                      //Remember Me for the next time
+                      
+                    ],
+                  ),
+                ),
+                // checked remeber Me for the next time
                       Row(
                         children: [
                           Text(
@@ -199,7 +203,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             ),
                           ),
                           Expanded(
-                            child: Checkbox(
+                            child: CheckboxListTile(
                               activeColor: kMainColor,
                               hoverColor: kGrey,
                               value: _isRemember,
@@ -250,9 +254,6 @@ class _UserDataScreenState extends State<UserDataScreen> {
                           btnColor: kMainColor,
                         ),
                       ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
