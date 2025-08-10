@@ -1,4 +1,8 @@
+import 'package:expenz_app/models/expense_model.dart';
+import 'package:expenz_app/models/income_model.dart';
+import 'package:expenz_app/widgets/expense_card.dart';
 import 'package:expenz_app/widgets/income_expence_card.dart';
+import 'package:expenz_app/widgets/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:expenz_app/constant/colors.dart';
@@ -6,7 +10,10 @@ import 'package:expenz_app/constant/constants.dart';
 import 'package:expenz_app/services/user_service.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final List<ExpenseModel> expensesList;
+  final List<IncomeModel> incomeList;
+
+  const HomePage({super.key, required this.expensesList, required this.incomeList});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -15,6 +22,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //for store the username
   String userName = "";
+  //total income
+  double totalIncome = 0;
+  //total expense
+  double totalExpense = 0;
 
   @override
   void initState() {
@@ -24,8 +35,20 @@ class _HomePageState extends State<HomePage> {
         userName = value["UserName"]!;
       }
     });
+    setState(() {
+      //total amount of income
+      for (var i = 0; i < widget.incomeList.length; i++) {
+        totalIncome += widget.incomeList[i].amount;
+      }
+      //total amount of expense
+      for (var i = 0; i < widget.expensesList.length; i++) {
+        totalExpense +=  widget.expensesList[i].amount;
+      }
+    });
     super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +56,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.28,
@@ -63,7 +87,9 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(3),
                               child: ClipRRect(
-                                borderRadius: BorderRadiusGeometry.circular(100),
+                                borderRadius: BorderRadiusGeometry.circular(
+                                  100,
+                                ),
                                 child: Image.asset("assets/images/user.jpg"),
                               ),
                             ),
@@ -92,13 +118,13 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IncomeExpenceCard(
                             title: "Income",
-                            amount: 500,
+                            amount: totalIncome,
                             imageUrl: "assets/images/income.png",
                             cardBGColor: kGreen,
                           ),
                           IncomeExpenceCard(
                             title: "Expenses",
-                            amount: 2000,
+                            amount: totalExpense,
                             imageUrl: "assets/images/expense.png",
                             cardBGColor: kRed,
                           ),
@@ -106,6 +132,61 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+                ),
+              ),
+              SizedBox(height: 15),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Spend Frequency",
+                      style: TextStyle(
+                        color: kBlack,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    //line chart
+                    LineChartWidget(),
+
+                    SizedBox(height: 10),
+                    Text(
+                      "Recent Transaction",
+                      style: TextStyle(
+                        color: kBlack,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.45,
+                      child: widget.expensesList.isEmpty
+                          ? Text(
+                              "No expenses added yet, add some expenses to see here",
+                              style: TextStyle(fontSize: 16, color: kGrey),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: widget.expensesList.length,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final expense = widget.expensesList[index];
+                                return ExpenceCard(
+                                  title: expense.title,
+                                  date: expense.date,
+                                  amount: expense.amount,
+                                  category: expense.category,
+                                  description: expense.description,
+                                );
+                              },
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ],
