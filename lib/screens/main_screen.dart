@@ -79,6 +79,39 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  //function to cal total expense
+  Map<ExpenseCategory, double> calExpenseCategoryTotal() {
+    Map<ExpenseCategory, double> categoryTotals = {
+      ExpenseCategory.Food: 0,
+      ExpenseCategory.Health: 0,
+      ExpenseCategory.Shopping: 0,
+      ExpenseCategory.Subscriptions: 0,
+      ExpenseCategory.Transport: 0,
+    };
+
+    for (ExpenseModel expense in expenseList) {
+      categoryTotals[expense.category] =
+          categoryTotals[expense.category]! + expense.amount;
+    }
+    return categoryTotals;
+  }
+
+  //function to cal total Income
+  Map<IncomeCategory, double> calIncomeCategoryTotal() {
+    Map<IncomeCategory, double> categoryTotals = {
+      IncomeCategory.Freelance: 0,
+      IncomeCategory.Salary: 0,
+      IncomeCategory.Sales: 0,
+      IncomeCategory.passive: 0,
+    };
+
+    for (IncomeModel income in incomeList) {
+      categoryTotals[income.category] =
+          (categoryTotals[income.category]! + income.amount);
+    }
+    return categoryTotals;
+  }
+
   @override
   void initState() {
     setState(() {
@@ -92,7 +125,11 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     //screen list
     final List<Widget> pages = [
-      HomePage(expensesList: expenseList, incomeList: incomeList,),
+      BudgetPage(
+        expenseCategoryTotals: calExpenseCategoryTotal(),
+        incomeCategoryTotals: calIncomeCategoryTotal(),
+      ),
+      HomePage(expensesList: expenseList, incomeList: incomeList),
       TransactionPage(
         expensesList: expenseList,
         incomeList: incomeList,
@@ -100,7 +137,7 @@ class _MainScreenState extends State<MainScreen> {
         ondismissedIncome: removeIncome,
       ),
       AddNewScreen(addExpense: addNewExpense, addIncome: addNewIncome),
-      BudgetPage(),
+
       ProfilePage(),
     ];
     return Scaffold(

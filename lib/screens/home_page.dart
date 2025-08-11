@@ -13,7 +13,11 @@ class HomePage extends StatefulWidget {
   final List<ExpenseModel> expensesList;
   final List<IncomeModel> incomeList;
 
-  const HomePage({super.key, required this.expensesList, required this.incomeList});
+  const HomePage({
+    super.key,
+    required this.expensesList,
+    required this.incomeList,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -42,13 +46,11 @@ class _HomePageState extends State<HomePage> {
       }
       //total amount of expense
       for (var i = 0; i < widget.expensesList.length; i++) {
-        totalExpense +=  widget.expensesList[i].amount;
+        totalExpense += widget.expensesList[i].amount;
       }
     });
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

@@ -29,6 +29,7 @@ class UserService {
       await prefs.setString("Password", password);
       //show a msg to a user
       ScaffoldMessenger.of(
+        // ignore: use_build_context_synchronously
         context,
       ).showSnackBar(SnackBar(content: Text("Your details stored sucsess")));
     } catch (err) {
@@ -48,8 +49,8 @@ class UserService {
   static Future<Map<String, String>> getUserData() async {
     //create an instance a shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? userName = await prefs.getString("UserName");
-    String? email = await prefs.getString("Email");
+    String? userName = prefs.getString("UserName");
+    String? email = prefs.getString("Email");
     return {"UserName": ?userName, "Email": ?email};
   }
 }
