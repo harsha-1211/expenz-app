@@ -120,4 +120,31 @@ class IncomeService {
       }
     }
   }
+
+    //remove all income data from shared preferenses
+  Future<void> removeAllIncomes(BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.remove(_incomeKey);
+      // show snack bar
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Remove All Incomes...."),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (err) {
+      // show snack bar
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Having Error : $err"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 }
