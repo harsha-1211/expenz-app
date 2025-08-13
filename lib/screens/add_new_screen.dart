@@ -25,7 +25,7 @@ class AddNewScreen extends StatefulWidget {
 class _AddNewScreenState extends State<AddNewScreen> {
   //state to track the expense or income
   int _selectedMethod = 0;
-  ExpenseCategory _expenseCategory = ExpenseCategory.Food;
+  ExpenseCategory _expenseCategory = ExpenseCategory.Shopping;
   IncomeCategory _incomeCategory = IncomeCategory.Salary;
 
   //form key for the form validation
@@ -165,7 +165,6 @@ class _AddNewScreenState extends State<AddNewScreen> {
                   ),
                 ),
               ),
-              //form
               Container(
                 margin: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height * 0.31,
@@ -178,6 +177,7 @@ class _AddNewScreenState extends State<AddNewScreen> {
                     topRight: Radius.circular(30),
                   ),
                 ),
+                //form
                 child: Form(
                   key: _formKey,
                   child: Padding(
@@ -227,6 +227,12 @@ class _AddNewScreenState extends State<AddNewScreen> {
                         //title feild
                         TextFormField(
                           controller: _titleController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Plz enter a title";
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 20,
@@ -248,6 +254,12 @@ class _AddNewScreenState extends State<AddNewScreen> {
                         //description feild
                         TextFormField(
                           controller: _descriptionController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Plz enter a description";
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 20,
@@ -269,6 +281,16 @@ class _AddNewScreenState extends State<AddNewScreen> {
                         //amount feild
                         TextFormField(
                           controller: _amountController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Plz enter a valid amount";
+                            } 
+                            double? amount = double.tryParse(value);
+                            if (amount == null || amount <= 0) {
+                              return "Plz enter a valid amount";
+                            } 
+                            return null;
+                          },
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
@@ -421,8 +443,9 @@ class _AddNewScreenState extends State<AddNewScreen> {
                           padding: EdgeInsets.symmetric(horizontal: 50),
                           child: GestureDetector(
                             onTap: () async {
-                              if (_selectedMethod == 0) {
-                                //save the expense/income save in shared preferenses
+                              if (_formKey.currentState!.validate()) {
+                                if (_selectedMethod == 0) {
+                                //save the expense save in shared preferenses
                                 List<ExpenseModel> loadedExpenses =
                                     await ExpenseService().loadExpenses();
 
@@ -445,9 +468,8 @@ class _AddNewScreenState extends State<AddNewScreen> {
                                 _titleController.clear();
                                 _descriptionController.clear();
                                 _amountController.clear();
-                              
                               } else {
-                                //save the expense/income save in shared preferenses
+                                //save the income save in shared preferenses
                                 List<IncomeModel> loadedIncomes =
                                     await IncomeService().loadIncomes();
 
@@ -470,8 +492,9 @@ class _AddNewScreenState extends State<AddNewScreen> {
                                 _titleController.clear();
                                 _descriptionController.clear();
                                 _amountController.clear();
-                              
                               }
+                              }
+                              
                             },
                             child: CustomButton(
                               btnName: "Add",
